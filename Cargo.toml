@@ -1,0 +1,14 @@
+[package]
+name = "measure"
+version = "1.0.0"
+authors = ["Pierre Wacrenier <mota@souitom.org>"]
+description = "Estimate data transfer speed between two streams"
+license = "MIT"
+homepage = "https://github.com/mota/measure"
+
+[dependencies]
+chrono = "0.4"
+
+[dependencies.clap]
+version = "~2.31.2"
+features = ["suggestions", "color"]
