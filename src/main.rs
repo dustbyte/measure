@@ -88,7 +88,7 @@ fn main() {
         None => SelectedUnit::Auto
     };
 
-    let mut buffer: [u8; CAPACITY] = [0; 4096];
+    let mut buffer: [u8; CAPACITY] = [0; CAPACITY];
     let mut bytes_read = 0;
     let mut dt = Local::now();
 
