@@ -1,11 +1,17 @@
-# measure
+# Measure
 Estimate data transfer speed between two streams
 
 [![Build Status](https://travis-ci.com/mota/measure.svg?branch=master)](https://travis-ci.com/mota/measure)
 
+# Install
+
+```
+$ cargo install measure
+```
+
 ## Usage
 ```
-measure 1.0
+measure 1.1
 Mota
 Measures data transfer given in standard input
 
