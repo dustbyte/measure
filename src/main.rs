@@ -21,7 +21,7 @@ fn print_rate(bytes: usize, unit: &SelectedUnit, stream: &mut Write) {
         SelectedUnit::Auto => Amount::auto_detect(bytes)
     };
 
-    writeln!(stream, "{}/s", data);
+    writeln!(stream, "{}/s", data).expect("Couldn't write");
 }
 
 enum SelectedUnit {
@@ -41,7 +41,7 @@ fn main() {
              .long("unit")
              .value_name("UNIT")
              .required(false)
-             .help("Display the result in a different unit format")
+             .help("Display the result in a different unit format (otherwise, auto detect)")
              .takes_value(true)
              .possible_values(&unit_values)
              )

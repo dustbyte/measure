@@ -1,6 +1,6 @@
 [package]
 name = "measure"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Pierre Wacrenier <mota@souitom.org>"]
 description = "Estimate data transfer speed between two streams"
 license = "MIT"

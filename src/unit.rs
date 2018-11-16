@@ -10,6 +10,7 @@ pub enum Unit {
     Tera,
 }
 
+#[derive(Eq, PartialEq, Debug)]
 pub enum UnitValue {
     Byte = 1,
     Kilo = 1 << 10,
@@ -19,16 +20,14 @@ pub enum UnitValue {
 }
 
 impl Unit {
-    fn to_value(&self) -> u64 {
-        let value = match self {
+    fn to_value(&self) -> UnitValue {
+        match self {
             Unit::Byte => UnitValue::Byte,
             Unit::Kilo => UnitValue::Kilo,
             Unit::Mega => UnitValue::Mega,
             Unit::Giga => UnitValue::Giga,
             Unit::Tera => UnitValue::Tera,
-        };
-
-        value as u64
+        }
     }
 }
 
@@ -70,7 +69,7 @@ impl Amount {
 
 impl Amount {
     fn to_quantity(&self) -> f64 {
-        self.bytes / (self.unit.to_value() as f64)
+        self.bytes / (self.unit.to_value() as u64 as f64)
     }
 }
 
@@ -82,7 +81,16 @@ impl fmt::Display for Amount {
 
 #[cfg(test)]
 mod test {
-    use super::{Unit, Amount};
+    use super::{Unit, UnitValue, Amount};
+
+    #[test]
+    fn unit_to_value() {
+        assert_eq!(Unit::Byte.to_value(), UnitValue::Byte);
+        assert_eq!(Unit::Kilo.to_value(), UnitValue::Kilo);
+        assert_eq!(Unit::Mega.to_value(), UnitValue::Mega);
+        assert_eq!(Unit::Giga.to_value(), UnitValue::Giga);
+        assert_eq!(Unit::Tera.to_value(), UnitValue::Tera);
+    }
 
     #[test]
     fn unit_to_string() {
