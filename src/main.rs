@@ -13,13 +13,17 @@ use unit::{Unit, Amount};
 
 const CAPACITY: usize = 4096;
 
-fn print_rate(bytes: usize, unit: &SelectedUnit, stream: &mut Write) {
+fn print_rate(bytes: usize, unit: &SelectedUnit, stream: &mut Write, timestamp: bool) {
     let bytes = bytes as u64 as f64;
 
     let data = match unit {
         SelectedUnit::Unit(unit) => Amount::new(bytes, *unit),
         SelectedUnit::Auto => Amount::auto_detect(bytes)
     };
+
+    if timestamp {
+        write!(stream, "[{}] ", Local::now().to_rfc3339()).expect("Couldn't write")
+    }
 
     writeln!(stream, "{}/s", data).expect("Couldn't write");
 }
@@ -33,7 +37,7 @@ fn main() {
     let unit_values = ["b", "k", "m", "g", "t"];
 
     let matches = App::new("measure")
-        .version("1.0")
+        .version("1.1")
         .author("Mota")
         .about("Measures data transfer given in standard input")
         .arg(Arg::with_name("unit")
@@ -52,6 +56,11 @@ fn main() {
              .required(false)
              .help("File to output the transfer rate to instead of stderr")
              .takes_value(true)
+             )
+        .arg(Arg::with_name("timestamp")
+             .short("t")
+             .long("timestamp")
+             .help("Add timestamp per transfer rate line")
              )
         .get_matches();
 
@@ -104,7 +113,7 @@ fn main() {
         if diff >= 1 {
             dt = now;
 
-            print_rate(bytes_read, &unit, &mut stream);
+            print_rate(bytes_read, &unit, &mut stream, matches.is_present("timestamp"));
             bytes_read = 0;
         }
     }
