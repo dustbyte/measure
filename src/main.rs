@@ -1,7 +1,6 @@
 extern crate chrono;
 extern crate clap;
-
-mod unit;
+extern crate super_units;
 
 use std::io::{self, Read, Write, stderr};
 use std::fs::{OpenOptions};
@@ -9,11 +8,11 @@ use std::fs::{OpenOptions};
 use clap::{Arg, App};
 use chrono::prelude::*;
 
-use unit::{Unit, Amount};
+use super_units::{Unit, Amount};
 
 const CAPACITY: usize = 4096;
 
-fn print_rate(bytes: usize, unit: &SelectedUnit, stream: &mut Write, timestamp: bool) {
+fn print_rate(bytes: usize, unit: &SelectedUnit, stream: &mut dyn Write, timestamp: bool) {
     let bytes = bytes as u64 as f64;
 
     let data = match unit {
